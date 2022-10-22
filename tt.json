@@ -1,0 +1,14 @@
+{"nom":"test",
+"prenom":"prenom",
+"gender":"homme",
+"solde":{ 
+    "$oid": "6352c53218b1befa566d1124"
+   },
+"profession": "Etudiant",
+"servicesdem" :[
+    { 
+    "$oid": "6350220e0b5f52925ad4474e"
+   }
+]
+
+}
