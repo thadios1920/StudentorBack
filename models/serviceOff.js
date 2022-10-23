@@ -19,7 +19,6 @@ const serviceOffSchema = mongoose.Schema({
     },
     commentaires: [{
         type:String,
-        required:true
     }],
     tempsService: {
         type: String,

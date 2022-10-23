@@ -9,6 +9,18 @@
     { 
     "$oid": "6350220e0b5f52925ad4474e"
    }
+],
+"servicesoff" :[
+    { 
+    "$oid": "63555c39f6183f1f6accc07f"
+   }
 ]
 
+},
+{
+    "description" : "Je vous offre une dimenstration sur nodeJS",
+    "titre":"NodeJS",
+    "prix":21,
+    "domaine":"Web",
+    "tempsService":"10"
 }
