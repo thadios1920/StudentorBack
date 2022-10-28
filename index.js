@@ -40,6 +40,40 @@ app.get('/servicesDem',async(req,res)=>{
     }
 })
 
+//Ajoute un service offert
+app.post('/addServiceOff',async(req,res)=>{
+    let serviceoff = new ServiceOff({
+        description: req.body.description,
+        titre: req.body.titre,
+        prix: req.body.prix,
+        domaine: req.body.domaine,
+        tempsService :req.body.tempsService
+        
+    })
+    serviceoff = await serviceoff.save();
+    if(!serviceoff)
+    return res.status(400).send('the Service cannot be created!')
+
+    res.send(serviceoff);
+})
+
+//Ajoute un service Demandées
+app.post('/addServiceDem',async(req,res)=>{
+    let servicedem = new ServiceDem({
+        description: req.body.description,
+        titre: req.body.titre,
+        prix: req.body.prix,
+        domaine: req.body.domaine,
+        tempsService :req.body.tempsService
+        
+    })
+    servicedem = await servicedem.save()
+    if(!servicedem)
+    return res.status(400).send('the Service cannot be created!')
+
+    res.send(servicedem);
+})
+
 app.get('/utilisateurs',async(req,res)=>{
     try {
         const userList = await Utilisateur.find()

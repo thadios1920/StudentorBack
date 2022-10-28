@@ -3,26 +3,26 @@ const mongoose = require('mongoose');
 const serviceOffSchema = mongoose.Schema({
     description: {
         type: String,
-        required: true
+        // required: true
     },
     titre: {
         type: String,
-        required: true
+        // required: true
     },
     prix: {
         type: Number,
-        required: true
+        // required: true
     },
     domaine: {
         type: String,
-        required: true
+        // required: true
     },
     commentaires: [{
         type:String,
     }],
     tempsService: {
         type: String,
-        required: true
+        // required: true
     }
     
 })
