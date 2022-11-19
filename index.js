@@ -3,14 +3,20 @@ const morgan = require('morgan')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-
-const {ServiceDem} = require('../Backend/models/serviceDem')
-const {ServiceOff} = require('../Backend/models/serviceOff')
-const {Utilisateur} = require('../Backend/models/utilisateur')
-const {Solde} = require('../Backend/models/solde')
+const authJWT = require('./helpers/jwt')
+const errorHandler = require('./helpers/error-handler')
 
 //Definition du fichier envirennement
 require('dotenv/config')
+
+const API = process.env.API_URL
+
+
+//Import Routers
+const servicesDemRouter = require("./routers/servicesDem")
+const servicesOffRouter = require("./routers/servicesOff")
+const soldesRouter = require("./routers/soldes")
+const  utilisateursRouter = require("./routers/utilisateurs")
 
 //Middlware qui intervient sur la requette pour mentionner qu'elle est de type json
 app.use(express.json())
@@ -19,72 +25,24 @@ app.use(morgan('tiny'))
 //Autoriser a Angular d'acceder au NodeJS
 app.use(cors())
 app.options('*', cors)
+//Fonction de Verification de JWT
+app.use(authJWT())
+//Gestion des errors detectés
+app.use(errorHandler)
+//Declarer folder comme static folder
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"))
 
-//Retourne tous les services offertes
-app.get('/servicesOff',async(req,res)=>{
-    try {
-        const serviceOffList = await ServiceOff.find()
-        res.send(serviceOffList)
-    } catch (error) {
-        console.log(error);
-    }
-})
 
-//Retourne tous les services Demandées
-app.get('/servicesDem',async(req,res)=>{
-    try {
-        const serviceDemList = await ServiceDem.find()
-        res.send(serviceDemList)
-    } catch (error) {
-        console.log(error);
-    }
-})
 
-//Ajoute un service offert
-app.post('/addServiceOff',async(req,res)=>{
-    let serviceoff = new ServiceOff({
-        description: req.body.description,
-        titre: req.body.titre,
-        prix: req.body.prix,
-        domaine: req.body.domaine,
-        tempsService :req.body.tempsService
-        
-    })
-    serviceoff = await serviceoff.save();
-    if(!serviceoff)
-    return res.status(400).send('the Service cannot be created!')
 
-    res.send(serviceoff);
-})
+//Routers
+app.use(`${API}/serviceDem`, servicesDemRouter)
+app.use(`${API}/derviceOff`, servicesOffRouter )
+app.use(`${API}/solde`, soldesRouter)
+app.use(`${API}/utilisateur`, utilisateursRouter)
 
-//Ajoute un service Demandées
-app.post('/addServiceDem',async(req,res)=>{
-    let servicedem = new ServiceDem({
-        description: req.body.description,
-        titre: req.body.titre,
-        prix: req.body.prix,
-        domaine: req.body.domaine,
-        tempsService :req.body.tempsService
-        
-    })
-    servicedem = await servicedem.save()
-    if(!servicedem)
-    return res.status(400).send('the Service cannot be created!')
 
-    res.send(servicedem);
-})
 
-app.get('/utilisateurs',async(req,res)=>{
-    try {
-        const userList = await Utilisateur.find()
-        .populate('servicesdem')
-        .populate('servicesoff')
-        .populate('solde')
-        res.send(userList)
-    } catch (error) {
-        console.log(error);
-    }
-})
 
 //Connexion sur la base de données 
 mongoose.connect(process.env.CONNECT_STRING)
