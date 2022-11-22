@@ -13,7 +13,7 @@ const FILE_TYPE_MAP = {
 };
 
 //Retourne tous les services offertes
-router.get('/servicesOff',async(req,res)=>{
+router.get('/',async(req,res)=>{
     try {
         const serviceOffList = await ServiceOff.find()
         res.send(serviceOffList)
@@ -23,7 +23,7 @@ router.get('/servicesOff',async(req,res)=>{
 })
 
 //Ajoute un service offert
-router.post('/addServiceOff',async(req,res)=>{
+router.post('/',async(req,res)=>{
     let serviceoff = new ServiceOff({
         description: req.body.description,
         titre: req.body.titre,

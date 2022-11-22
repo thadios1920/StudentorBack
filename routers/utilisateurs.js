@@ -100,7 +100,13 @@ router.post('/', uploadOptions.single('image'), async (req,res)=>{
 })
 
 //Put Request Modifier un user existant
-router.put('/:id', async (req, res) => {
+router.put('/:id',  uploadOptions.single('image'), async (req, res) => {
+
+    const file = req.file;
+    if (!file) return res.status(400).send('No image in the request');
+
+    const fileName = file.filename;
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
 
     const userExist = await Utilisateur.findById(req.params.id)
     let newPassword
@@ -117,8 +123,11 @@ router.put('/:id', async (req, res) => {
             prenom: req.body.prenom,
             passwordHash: newPassword,//bcrypt pour vrypter les passwords
             gender: req.body.gender,
+            image: `${basePath}${fileName}`,
+            soldeAux : req.body.soldeAux,
             email: req.body.email,
             profession: req.body.profession,
+            ville: req.body.ville,
             solde: req.body.solde,
         }, { new: true }// Pour retourner les nouvelles données non pas les anciennes
     )
