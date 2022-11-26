@@ -39,5 +39,31 @@ router.post('/',async(req,res)=>{
     res.send(serviceoff);
 })
 
+
+router.put('/:id',async(req,res)=>{
+    let ServiceOff = new ServiceOff({
+        description: req.body.description,
+        titre: req.body.titre,
+        prix: req.body.prix,
+        domaine: req.body.domaine,
+        tempsService :req.body.tempsService
+        
+    })
+    ServiceOff = await ServiceOff.save()
+    if(!ServiceOff)
+    return res.status(400).send('the Service cannot be created!')
+
+    res.send(ServiceOff);
+})
+
+//Delete Request Supprimer un Service Offert
+router.delete('/:id', (req, res) => {
+    ServiceOff.findByIdAndRemove(req.params.id)
+        .then(user => {
+            if (user) { return res.send(200).json({ success: true, message: 'Service Offert DELETED' }) }
+        })
+        .catch(err => { console.log(err); })
+})
+
 //Exporter le module
 module.exports = router
