@@ -26,9 +26,9 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.options('*', cors)
 //Fonction de Verification de JWT
-//app.use(authJWT())
+app.use(authJWT())
 //Gestion des errors detectés
-//app.use(errorHandler)
+app.use(errorHandler)
 //Declarer folder comme static folder
 app.use("/public/uploads", express.static(__dirname + "/public/uploads"))
 

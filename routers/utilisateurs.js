@@ -234,6 +234,8 @@ router.post('/login',async (req,res)=>{
         return res.status(400).send('User not found')
     }
     if (user && bcrypt.compareSync(req.body.password,user.passwordHash)) {
+        const userTransfer = await Utilisateur.findById(user.id).select('-passwordHash')
+
         const token = jwt.sign({
             userID : user.id,
             isAdmin : user.isAdmin
@@ -241,13 +243,12 @@ router.post('/login',async (req,res)=>{
         secret,{expiresIn : '1d'})
         res.status(200).send({
             message:'User Authenticated',
-            email:user.email,
+            user: userTransfer ,
             token:token
     })
     }else{
         res.status(400).send('Wrong password')
     }
 })
-
 //Exporter le module
 module.exports = router
