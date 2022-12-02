@@ -56,4 +56,13 @@ const utilisateurSchema = mongoose.Schema({
     }]    
 })
 
+utilisateurSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+utilisateurSchema.set('toJSON', {
+    virtuals: true,
+});
+
+exports.Utilisateur = utilisateurSchema;
 exports.Utilisateur = mongoose.model('Utilisateur', utilisateurSchema);

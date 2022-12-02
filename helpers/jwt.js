@@ -10,7 +10,9 @@ function authJWT() {
     }).unless({
         path:[
             { url: /\/public\/uploads(.*)/, methods: ['GET', 'OPTIONS'] },
-            {url: /\/api\/v1\/servicesOff(.*)/ , methods: ['GET', 'OPTIONS'] },
+            {url: /\/api\/v1\/serviceOff(.*)/ , methods: ['GET', 'OPTIONS'] },
+            {url: /\/api\/v1\/serviceDem(.*)/ , methods: ['GET', 'OPTIONS'] },
+            
             `${api}/utilisateur/login`,
             `${api}/utilisateur/register`,
         ]

@@ -27,4 +27,13 @@ const serviceOffSchema = mongoose.Schema({
     
 })
 
+serviceOffSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+serviceOffSchema.set('toJSON', {
+    virtuals: true,
+});
+
+exports.serviceOffSchema = serviceOffSchema;
 exports.ServiceOff = mongoose.model('ServiceOff', serviceOffSchema);
