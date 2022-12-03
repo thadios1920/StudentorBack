@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 
 //Retourne tous les services Demandées
-router.get('/servicesDem',async(req,res)=>{
+router.get('/',async(req,res)=>{
     try {
         const serviceDemList = await ServiceDem.find()
         res.send(serviceDemList)
@@ -32,20 +32,24 @@ router.post('/addServiceDem',async(req,res)=>{
     res.send(servicedem);
 })
 
-router.put('/:id',async(req,res)=>{
-    let servicedem = new ServiceDem({
+router.put('/:id', async (req, res) => {
+
+   
+
+    service = await ServiceDem.findByIdAndUpdate(
+        req.params.id,
+        {
         description: req.body.description,
         titre: req.body.titre,
         prix: req.body.prix,
         domaine: req.body.domaine,
         tempsService :req.body.tempsService
-        
-    })
-    servicedem = await servicedem.save()
-    if(!servicedem)
-    return res.status(400).send('the Service cannot be created!')
-
-    res.send(servicedem);
+        }, { new: true }// Pour retourner les nouvelles données non pas les anciennes
+    )
+    if (!service) {
+        return res.send('service not found')
+    }
+    res.send(service)
 })
 
 //Delete Request Supprimer un Service Demandée

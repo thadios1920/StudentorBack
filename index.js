@@ -17,6 +17,7 @@ const servicesDemRouter = require("./routers/servicesDem")
 const servicesOffRouter = require("./routers/servicesOff")
 const soldesRouter = require("./routers/soldes")
 const  utilisateursRouter = require("./routers/utilisateurs")
+const messagesRouter=require("./routers/message")
 
 //Middlware qui intervient sur la requette pour mentionner qu'elle est de type json
 app.use(express.json())
@@ -40,6 +41,7 @@ app.use(`${API}/serviceDem`, servicesDemRouter)
 app.use(`${API}/serviceOff`, servicesOffRouter )
 app.use(`${API}/solde`, soldesRouter)
 app.use(`${API}/utilisateur`, utilisateursRouter)
+app.use(`${API}/message`, messagesRouter)
 
 
 
